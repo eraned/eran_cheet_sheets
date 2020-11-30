@@ -11,9 +11,7 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 
 
-credentials = service_account.Credentials.from_service_account_file(
-    'path/to/file.json')
-
+credentials = service_account.Credentials.from_service_account_file('path/to/file.json')
 project_id = 'my-bq'
 dataset_id = ''
 client = bigquery.Client(credentials=credentials, project=project_id)
@@ -23,7 +21,6 @@ sql = (
     """SELECT name FROM `bigquery-public-data.usa_names.usa_1910_2013` 
     WHERE state = "TX" 
     LIMIT 100""")
-
 
 def query_table(sql):
     query_job = client.query(sql)
