@@ -2,10 +2,18 @@ import numpy as np
 import pandas as pd
 import json
 import re
-# ----------------
+# ---------------- data structures :
+# list
+
 list = [1, 2, 3]
+# tupel
+
 tupel = (1, 2, 3)
+# set
+
 set = {1, 2, 3}
+# dictionery 
+
 dic = {"key1": "value1", "key2": "value2"}
 # ----------------
 if condition:
@@ -22,7 +30,7 @@ mylist = [x*2 for x in range(0, 11) if x % 2 == 0] // short way for loop & if st
 # ----------------
 while boolean_condition:
 	code
-# ----------------
+# ---------------- 
 l = list(range(10))
 print(l)
 l = list(map(lambda x: x*x, l))
