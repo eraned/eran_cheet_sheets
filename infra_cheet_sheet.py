@@ -20,7 +20,6 @@ url : http://127.0.0.1:5000/
 $ docker build -t app:latest /path/to/Dockerfile
 $ docker run -d -p 5000:5000 app
 
-
 docker push eraned/eran_edri_docker_hub:tagname
 
 # kuberntes

@@ -199,4 +199,101 @@ matches = re.findall(pattern,text) - > return list with all the matches
 phone = re.search(r’\d{3}-\d{3}-\d{4},text)
 
 
+# DB connections :
+# sqlit - relational DB
+import sqlite3
+
+db = sqlite3.connect(':memory:')  # Using an in-memory database
+cur = db.cursor()
+
+cur.execute('''CREATE TABLE IF NOT EXISTS Customer (
+                id integer PRIMARY KEY,
+                firstname varchar(255),
+                lastname varchar(255) )''')
+
+
+cur.execute('''INSERT INTO Customer(firstname, lastname)
+               VALUES ('Bob', 'Adams'),
+                      ('Amy', 'Smith'),
+                      ('Rob', 'Bennet');''')
+
+
+cur.execute('''SELECT itemid, AVG(price) FROM BoughtItem GROUP BY itemid''')
+print(cur.fetchall())
+
+# MongiDB - No relational DB
+# pip install pymongo
+
+import pymongo
+
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+
+# Note: This database is not created until it is populated by some data
+db = client["example_database"]
+
+customers = db["customers"]
+items = db["items"]
+
+customers_data = [{ "firstname": "Bob", "lastname": "Adams" },
+                  { "firstname": "Amy", "lastname": "Smith" },
+                  { "firstname": "Rob", "lastname": "Bennet" },]
+items_data = [{ "title": "USB", "price": 10.2 },
+              { "title": "Mouse", "price": 12.23 },
+              { "title": "Monitor", "price": 199.99 },]
+
+customers.insert_many(customers_data)
+items.insert_many(items_data)
+
+
+
+bob = customers.update_many(
+        {"firstname": "Bob"},
+        {
+            "$set": {
+                "boughtitems": [
+                    {
+                        "title": "USB",
+                        "price": 10.2,
+                        "currency": "EUR",
+                        "notes": "Customer wants it delivered via FedEx",
+                        "original_item_id": 1
+                    }
+                ]
+            },
+        }
+    )
+
+customers.create_index([("name", pymongo.DESCENDING)])
+items = customers.find().sort("name", pymongo.ASCENDING)
+
+for item in items:
+  print(item.get('boughtitems'))  
+
+# SELECT firstname, boughtitems FROM customers WHERE firstname LIKE ('Bob', 'Amy')
+
+for i in customers.find({"$or": [{'firstname':'Bob'}, {'firstname':'Amy'}]}, 
+                                 {'firstname':1, 'boughtitems':1, '_id':0}):
+     print(i)
+
+
+# Redis - Cache DB
+# $ pip install redis
+
+import redis
+from datetime import timedelta
+
+# In a real web application, configuration is obtained from settings or utils
+r = redis.Redis()
+
+# Assume this is a getter handling a request
+def get_name(request, *args, **kwargs):
+    id = request.get('id')
+    if id in r:
+        return r.get(id)  # Assume that we have an {id: name} store
+    else:
+        # Get data from the main DB here, assume we already did it
+        name = 'Bob'
+        # Set the value in the cache database, with an expiration time
+        r.setex(id, timedelta(minutes=60), value=name)
+        return name
 
