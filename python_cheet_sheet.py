@@ -128,12 +128,48 @@ for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 
 #  ---------------- csv & json  ---------------- #
 
-# csv
+# --- csv --- #
+import csv
 
 
 
-# json
 
+# --- json --- #
+import json
+
+# json to dictionary :
+
+person = '{"name": "Bob", "languages": ["English", "Fench"]}'
+person_dict = json.loads(person)
+print( person_dict)
+
+# read json file to dictionary
+
+with open('path_to_file/person.json') as f:
+  data = json.load(f)
+
+print(data)
+
+# convert dictionary to json :
+
+person_dict = {'name': 'Bob',
+'age': 12,
+'children': None
+}
+person_json = json.dumps(person_dict)
+
+print(person_json)
+
+# writing json to a file :
+
+person_dict = {"name": "Bob",
+"languages": ["English", "Fench"],
+"married": True,
+"age": 32
+}
+
+with open('person.txt', 'w') as json_file:
+  json.dump(person_dict, json_file)
 
 
 #  ---------------- pandas (dataframes & series) ---------------- #
