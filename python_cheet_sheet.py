@@ -113,6 +113,21 @@ for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 
 
 
+#  ---------------- requests  ---------------- #
+
+
+
+
+
+
+
+#  ---------------- built-in functions  ---------------- #
+
+
+
+
+
+
 
 
 
