@@ -1,8 +1,15 @@
-import numpy as np
-import pandas as pd
 import json
+import requests
+import datetime
+import pandas as pd
+import numpy as np
+import time
+import csv
 import re
-# ---------------- data structures :
+import os
+import petl
+import schedule
+# ---------------- data structures ---------------- #
 # list
 
 list = [1, 2, 3]
@@ -15,7 +22,11 @@ set = {1, 2, 3}
 # dictionery 
 
 dic = {"key1": "value1", "key2": "value2"}
-# ----------------
+
+# string
+
+
+# ---------------- flow control ---------------- #
 if condition:
 	code
 elif condition:
@@ -37,7 +48,7 @@ l = list(map(lambda x: x*x, l))
 print(l)
 l = list(filter(lambda x: x > 10 and x < 80, l))
 print(l)
-# ----------------
+# ---------------- functions ---------------- #
 
 
 def function(*args):
@@ -50,8 +61,7 @@ function("eran")
 if __name__ == '__main__':
     code
 
-# lambda & map & filter
-# ----------------
+#  ---------------- lambda & map & filter ---------------- #
 
 nums = (1, 2, 3, 4, 5, 6, 7)
 result = map(lambda x: x + x + x, nums)
@@ -73,8 +83,40 @@ def check_even(num): return num % 2 == 0
 my_nums = [1, 2, 3, 4, 5, 6]
 for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 
-#  dataframes & series
-# ----------------
+#  ---------------- files ---------------- #
+
+
+
+
+
+
+
+
+
+#  ---------------- object & class ---------------- #
+
+
+
+
+
+
+#  ---------------- Regex ---------------- #
+
+
+
+
+
+#  ---------------- date & time  ---------------- #
+
+
+
+
+
+
+
+
+
+#  ---------------- pandas (dataframes & series) ---------------- #
 
  Series([3, 6, 9, 12], index=[eran, roni, noa, iris])
 
@@ -199,7 +241,8 @@ matches = re.findall(pattern,text) - > return list with all the matches
 phone = re.search(r’\d{3}-\d{3}-\d{4},text)
 
 
-# DB connections :
+#  ---------------- DB connections ---------------- #
+
 # sqlit - relational DB
 import sqlite3
 
