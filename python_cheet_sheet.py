@@ -107,10 +107,89 @@ for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 
 
 #  ---------------- date & time  ---------------- #
+import datetime
 
+# current date and time
+datetime_object = datetime.datetime.now()
+print(datetime_object)
 
+# current date
+date_object = datetime.date.today()
+print(date_object)
+print("Current year:", date_object.year)
+print("Current month:", date_object.month)
+print("Current day:", date_object.day)
 
+# date class
 
+d = datetime.date(2019, 4, 13)
+print(d)
+
+timestamp = date.fromtimestamp(1326244364)
+print("Date =", timestamp)
+
+# time class 
+
+# time(hour = 0, minute = 0, second = 0)
+a = time()
+print("a =", a)
+
+# time(hour, minute and second)
+b = time(11, 34, 56)
+print("b =", b)
+print("hour =", b.hour)
+print("minute =", b.minute)
+print("second =", b.second)
+print("microsecond =", b.microsecond)
+
+# time(hour, minute and second)
+c = time(hour = 11, minute = 34, second = 56)
+print("c =", c)
+
+# time(hour, minute, second, microsecond)
+d = time(11, 34, 56, 234566)
+print("d =", d)
+
+# datetime class
+
+a = datetime(2017, 11, 28, 23, 55, 59, 342380)
+print("year =", a.year)
+print("month =", a.month)
+print("hour =", a.hour)
+print("minute =", a.minute)
+print("timestamp =", a.timestamp())
+
+# timedelta class 
+
+t1 = timedelta(weeks = 2, days = 5, hours = 1, seconds = 33)
+t2 = timedelta(days = 4, hours = 11, minutes = 4, seconds = 54)
+t3 = t1 - t2
+
+print("t3 =", t3)
+
+# strftime() - datetime object to string
+
+# current date and time
+now = datetime.now()
+
+t = now.strftime("%H:%M:%S")
+print("time:", t)
+
+s1 = now.strftime("%m/%d/%Y, %H:%M:%S")
+# mm/dd/YY H:M:S format
+print("s1:", s1)
+
+s2 = now.strftime("%d/%m/%Y, %H:%M:%S")
+# dd/mm/YY H:M:S format
+print("s2:", s2)
+
+# strptime() - string to datetime object
+
+date_string = "21 June, 2018"
+print("date_string =", date_string)
+
+date_object = datetime.strptime(date_string, "%d %B, %Y")
+print("date_object =", date_object)
 
 
 #  ---------------- requests  ---------------- #
@@ -130,6 +209,24 @@ for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 #  ---------------- collections  ---------------- #
 
 # --- counter --- #
+# Counter is a subclass of dictionary object.
+# The Counter() function in collections module takes an iterable or a mapping as the argument and returns a Dictionary.
+# In this dictionary, a key is an element in the iterable or the mapping and value is the number of times that element exists in the iterable or the mapping.
+from collections import Counter
+
+list = [1,2,3,4,1,2,6,7,3,8,1]
+cnt = Counter(list)
+print(cnt)
+# elemnts()
+print(list(cnt.elements()))
+# most_common()
+print(cnt.most_common())
+# subtract()
+cnt = Counter({1:3,2:4})
+deduct = {1:1, 2:2}
+cnt.subtract(deduct)
+print(cnt)
+
 
 # --- defaultdict --- #
 
@@ -150,6 +247,44 @@ for item in filter(check_even, my_nums): print(item) -> 2, 4, 6
 # --- csv --- #
 import csv
 
+# read csv file using csv.reader()
+with open('people.csv', 'r') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        print(row)
+
+# write csv file using csv.writer()
+
+csv_rowlist = [["SN", "Movie", "Protagonist"], [1, "Lord of the Rings", "Frodo Baggins"],
+               [2, "Harry Potter", "Harry Potter"]]
+with open('protagonist.csv', 'w') as file:
+    writer = csv.writer(file)
+    writer.writerows(csv_rowlist)
+
+# read csv file to dictionary with csv.DictReader()
+
+with open("people.csv", 'r') as file:
+    csv_file = csv.DictReader(file)
+    for row in csv_file:
+        print(dict(row))
+
+# write csv file from dictionary to file with csv.DictWriter()
+
+with open('players.csv', 'w', newline='') as file:
+    fieldnames = ['player_name', 'fide_rating']
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerow({'player_name': 'Magnus Carlsen', 'fide_rating': 2870})
+    writer.writerow({'player_name': 'Fabiano Caruana', 'fide_rating': 2822})
+    writer.writerow({'player_name': 'Ding Liren', 'fide_rating': 2801})
+
+#  read and write csv with pandas 
+
+pd.read_csv("people.csv")
+
+df = pd.DataFrame([['Jack', 24], ['Rose', 22]], columns = ['Name', 'Age'])
+df.to_csv('person.csv')
 
 
 
@@ -363,6 +498,65 @@ if __name__ == '__main__':
         StructField('avg_cpc', DoubleType(), True),
         StructField('dt', StringType(), True)
     ])
+
+
+
+
+
+#  ---------------- airflow -------------- #
+
+# importing the libaries
+from datetime import timedelta
+from airflow import DAG
+from airflow.operators.python_operator import PythonOperator
+from airflow.utils.dates import days_ago
+
+# defining DAG args
+default_args = {
+    'owner': 'lakshay',
+    'depends_on_past': False,
+    'start_date': days_ago(2),
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+    # 'queue': 'bash_queue',
+    # 'pool': 'backfill',
+    # 'priority_weight': 10,
+    # 'end_date': datetime(2016, 1, 1),
+    # 'wait_for_downstream': False,
+    # 'dag': dag,
+    # 'sla': timedelta(hours=2),
+    # 'execution_timeout': timedelta(seconds=300),
+    # 'on_failure_callback': some_function,
+    # 'on_success_callback': some_other_function,
+    # 'on_retry_callback': another_function,
+    # 'sla_miss_callback': yet_another_function,
+    # 'trigger_rule': 'all_success'
+}
+
+
+# define the python function
+def my_function(x):
+    return x + " is a must have tool for Data Engineers."
+
+# define the DAG
+dag = DAG(
+    'python_operator_sample',
+    default_args=default_args,
+    description='How to use the Python Operator?',
+    schedule_interval=timedelta(days=1),
+)
+
+t1 = PythonOperator(
+    task_id='print',
+    python_callable= my_function,
+    op_kwargs = {"x" : "Apache Airflow"},
+    dag=dag,
+)
+
+t1
 
 
 
