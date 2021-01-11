@@ -316,6 +316,57 @@ matches = re.findall(pattern,text) - > return list with all the matches
 phone = re.search(r’\d{3}-\d{3}-\d{4},text)
 
 
+#  ---------------- numpy ---------------- #
+
+
+
+
+
+#  ---------------- spark & pyspark -------------- #
+
+import json
+import datetime
+import pandas as pd
+import numpy as np
+import time
+import csv
+import re
+import os
+import schedule
+import findspark
+import pyspark
+# import spark
+from pyspark import SparkConf
+from pyspark import SparkContext
+from pyspark.sql import SparkSession
+from pyspark.sql import SQLContext
+from pyspark.sql.types import ArrayType, StructField, StructType, StringType, IntegerType, DoubleType, DateType
+import pyspark.sql.functions as F
+
+
+def function():
+   
+   print("eran edri")
+
+
+
+
+if __name__ == '__main__':
+    findspark.init()
+    sc = SparkContext.getOrCreate()
+    sqlContext = SQLContext(sc)
+    spark = SparkSession(sc)
+
+    schema = StructType([
+        StructField('keyword', StringType(), True),
+        StructField('avg_searches_monthly_volume', DoubleType(), True),
+        StructField('avg_cpc', DoubleType(), True),
+        StructField('dt', StringType(), True)
+    ])
+
+
+
+
 #  ---------------- DB connections ---------------- #
 
 # sqlit - relational DB
