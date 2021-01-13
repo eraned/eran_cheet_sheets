@@ -231,6 +231,19 @@ print(cnt)
 # --- defaultdict --- #
 
 # --- ordereddict --- #
+# OrderedDict is a dictionary where keys maintain the order in which they are inserted, 
+# which means if you change the value of a key later, it will not change the position of the key.
+
+from collections import OrderedDict
+
+od = OrderedDict()
+od['a'] = 1
+od['b'] = 2
+od['c'] = 3
+print(od)
+
+
+
 
 # --- deque --- #
 
