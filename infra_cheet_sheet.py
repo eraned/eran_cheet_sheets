@@ -27,6 +27,20 @@ docker push eraned/eran_edri_docker_hub:tagname
 # gcp cli
 
 
+# github 
+# - create new repo
+echo "# airflow_udemy" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/eraned/airflow_udemy.git
+git push -u origin main
+
+# -push to existing repo 
+git remote add origin https://github.com/eraned/airflow_udemy.git
+git branch -M main
+git push -u origin main
 # aws cli
 
 # terraform
